@@ -17,10 +17,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name="user_entity")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
@@ -65,7 +67,7 @@ public class User implements UserDetails {
     private boolean enabled = true;
 
     @ElementCollection
-    private EnumSet<UserRole> roles;
+    private Set<UserRole> roles;
 
     @CreatedDate
     private LocalDateTime createdAt;
