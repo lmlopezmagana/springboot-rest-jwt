@@ -2,6 +2,7 @@ package net.openwebinars.springboot.restjwt.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.openwebinars.springboot.restjwt.user.dto.CreateUserRequest;
+import net.openwebinars.springboot.restjwt.user.dto.UserResponse;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -18,19 +19,19 @@ public class UserController {
 
 
     @PostMapping("/auth/register")
-    public ResponseEntity<User> createUserWithUserRole(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> createUserWithUserRole(@RequestBody CreateUserRequest createUserRequest) {
         User user = userService.createUserWithUserRole(createUserRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromUser(user));
     }
 
     // Más adelante podemos manejar la seguridad de acceso a esta petición
 
     @PostMapping("/auth/register/admin")
-    public ResponseEntity<User> createUserWithAdminRole(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> createUserWithAdminRole(@RequestBody CreateUserRequest createUserRequest) {
         User user = userService.createUserWithAdminRole(createUserRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromUser(user));
     }
 
 
