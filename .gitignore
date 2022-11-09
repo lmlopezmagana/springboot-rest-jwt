@@ -159,3 +159,5 @@ buildNumber.properties
 # "temporary" build files
 /target
 
+# Mac
+.DS_Store
