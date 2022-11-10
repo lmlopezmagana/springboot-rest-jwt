@@ -35,10 +35,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromUser(user));
     }
 
-    @GetMapping("/say/hello")
-    public String sayHello() {
-        return "Hello World!";
-    }
 
 
 }
