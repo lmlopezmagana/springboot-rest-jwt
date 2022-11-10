@@ -45,6 +45,7 @@ public class User implements UserDetails {
                     )
             }
     )
+    @Column(columnDefinition = "uuid")
     private UUID id;
 
     @NaturalId
