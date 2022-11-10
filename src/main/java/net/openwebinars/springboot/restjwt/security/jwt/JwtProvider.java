@@ -1,9 +1,9 @@
 package net.openwebinars.springboot.restjwt.security.jwt;
 
 
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.java.Log;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -68,6 +68,18 @@ public class JwtProvider {
                 .setIssuedAt(tokenExpirationDateTime)
                 .signWith(secretKey)
                 .compact();
+
+    }
+
+    public boolean validateToken(String token) {
+
+        try {
+            jwtParser.parseClaimsJws(token);
+            return true;
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
+            log.info("Error con el token: " + ex.getMessage());
+        }
+        return false;
 
     }
 
