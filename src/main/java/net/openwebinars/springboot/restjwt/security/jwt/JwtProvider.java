@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.UUID;
 
 @Log
 @Service
@@ -70,6 +71,13 @@ public class JwtProvider {
                 .compact();
 
     }
+
+    public UUID getUserIdFromJwtToken(String token) {
+        return UUID.fromString(
+                jwtParser.parseClaimsJws(token).getBody().getSubject()
+        );
+    }
+
 
     public boolean validateToken(String token) {
 
