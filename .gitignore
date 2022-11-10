@@ -161,3 +161,7 @@ buildNumber.properties
 
 # Mac
 .DS_Store
+
+# H2 databases
+
+*.mv.db
