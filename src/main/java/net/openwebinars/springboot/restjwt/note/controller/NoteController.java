@@ -3,7 +3,11 @@ package net.openwebinars.springboot.restjwt.note.controller;
 import lombok.RequiredArgsConstructor;
 import net.openwebinars.springboot.restjwt.note.model.Note;
 import net.openwebinars.springboot.restjwt.note.repo.NoteRepository;
+import net.openwebinars.springboot.restjwt.user.model.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,9 +22,10 @@ public class NoteController {
     private final NoteRepository repository;
 
     @GetMapping("/")
-    public ResponseEntity<List<Note>> getAll() {
+    public ResponseEntity<List<Note>> getAll(@AuthenticationPrincipal User user) {
         // Utilizamos un método comun para devolver la respuesta de todos los List<Note>
-        return buildResponseOfAList(repository.findAll());
+        //return buildResponseOfAList(repository.findAll());
+        return buildResponseOfAList(repository.findByAuthor(user.getId().toString()));
     }
 
 
@@ -77,6 +82,7 @@ public class NoteController {
 
     }
 
+    @PreAuthorize("@noteRepository.findById(#id).orElse(new net.openwebinars.springboot.restjwt.note.model.Note()).author == authentication.principal.getId().toString()")
     @PutMapping("/{id}")
     public ResponseEntity<Note> edit(@PathVariable Long id, @RequestBody Note edited) {
 
@@ -85,7 +91,7 @@ public class NoteController {
                         .map(note -> {
                             note.setTitle(edited.getTitle());
                             note.setContent(edited.getContent());
-                            note.setAuthor(edited.getAuthor());
+                            //note.setAuthor(edited.getAuthor());
                             note.setImportant(edited.isImportant());
                             return repository.save(note);
                         }));
