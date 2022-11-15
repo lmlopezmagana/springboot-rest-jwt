@@ -33,7 +33,8 @@ public class JwtProvider {
     private String jwtSecret;
 
     @Value("${jwt.duration}")
-    private int jwtLifeInDays;
+    //private int jwtLifeInDays;
+    private int jwtLifeInMinutes;
 
     private JwtParser jwtParser;
 
@@ -58,7 +59,8 @@ public class JwtProvider {
             Date.from(
                     LocalDateTime
                             .now()
-                            .plusDays(jwtLifeInDays)
+                            //.plusDays(jwtLifeInDays)
+                            .plusMinutes(jwtLifeInMinutes)
                             .atZone(ZoneId.systemDefault())
                             .toInstant()
             );
