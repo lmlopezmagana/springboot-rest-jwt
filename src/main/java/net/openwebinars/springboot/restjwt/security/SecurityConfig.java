@@ -1,7 +1,7 @@
 package net.openwebinars.springboot.restjwt.security;
 
 import lombok.RequiredArgsConstructor;
-import net.openwebinars.springboot.restjwt.security.jwt.JwtAuthenticationFilter;
+import net.openwebinars.springboot.restjwt.security.jwt.access.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -101,7 +101,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web -> web.ignoring().antMatchers("/h2-console/**", "/auth/register", "/auth/login"));
+        return (web -> web.ignoring().antMatchers("/h2-console/**", "/auth/register", "/auth/login", "/refreshtoken"));
     }
 
 

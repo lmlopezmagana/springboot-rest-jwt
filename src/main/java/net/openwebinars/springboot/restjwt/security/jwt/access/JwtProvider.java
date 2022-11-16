@@ -1,4 +1,4 @@
-package net.openwebinars.springboot.restjwt.security.jwt;
+package net.openwebinars.springboot.restjwt.security.jwt.access;
 
 
 import io.jsonwebtoken.*;
@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.java.Log;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -55,23 +55,29 @@ public class JwtProvider {
 
         User user = (User) authentication.getPrincipal();
 
+        return generateToken(user);
+
+    }
+
+    public String generateToken(User user) {
         Date tokenExpirationDateTime =
-            Date.from(
-                    LocalDateTime
-                            .now()
-                            //.plusDays(jwtLifeInDays)
-                            .plusMinutes(jwtLifeInMinutes)
-                            .atZone(ZoneId.systemDefault())
-                            .toInstant()
-            );
+                Date.from(
+                        LocalDateTime
+                                .now()
+                                //.plusDays(jwtLifeInDays)
+                                .plusMinutes(jwtLifeInMinutes)
+                                .atZone(ZoneId.systemDefault())
+                                .toInstant()
+                );
 
         return Jwts.builder()
                 .setHeaderParam("typ", TOKEN_TYPE)
                 .setSubject(user.getId().toString())
-                .setIssuedAt(tokenExpirationDateTime)
+                //.setIssuedAt(tokenExpirationDateTime
+                .setIssuedAt(new Date())
+                .setExpiration(tokenExpirationDateTime)
                 .signWith(secretKey)
                 .compact();
-
     }
 
     public UUID getUserIdFromJwtToken(String token) {
