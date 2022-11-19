@@ -20,7 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
-    private final ObjectMapper objectMapper;
+    //private final ObjectMapper objectMapper;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
