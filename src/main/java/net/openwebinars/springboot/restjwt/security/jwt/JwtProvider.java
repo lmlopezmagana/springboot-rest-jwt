@@ -68,7 +68,8 @@ public class JwtProvider {
         return Jwts.builder()
                 .setHeaderParam("typ", TOKEN_TYPE)
                 .setSubject(user.getId().toString())
-                .setIssuedAt(tokenExpirationDateTime)
+                .setIssuedAt(new Date())
+                .setExpiration(tokenExpirationDateTime)
                 .signWith(secretKey)
                 .compact();
 
