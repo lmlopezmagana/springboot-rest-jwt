@@ -2,6 +2,7 @@ package net.openwebinars.springboot.restjwt.security.jwt.access;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import net.openwebinars.springboot.restjwt.security.errorhandling.JwtTokenException;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,11 +56,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
             }
-        } catch (Exception ex) {
+
+            filterChain.doFilter(request, response);
+
+        } catch (JwtTokenException ex) {
             log.info("Authentication error using token JWT: " + ex.getMessage());
+            throw ex;
         }
 
-        filterChain.doFilter(request, response);
+
 
     }
 
