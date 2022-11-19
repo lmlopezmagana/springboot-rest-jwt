@@ -21,7 +21,7 @@ import java.util.UUID;
 public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserService userService;
+    //private final UserService userService;
 
     @Value("${jwt.refresh.duration}")
     private int durationInMinutes;
@@ -44,11 +44,11 @@ public class RefreshTokenService {
         return refreshToken;
     }
 
-    public RefreshToken createRefreshToken(UUID userId) {
+    /*public RefreshToken createRefreshToken(UUID userId) {
         return userService.findById(userId)
                 .map(this::createRefreshToken)
                 .orElseThrow(() -> new UsernameNotFoundException("Error al crear el token de refresco"));
-    }
+    }*/
 
     public RefreshToken verify(RefreshToken refreshToken) {
 
