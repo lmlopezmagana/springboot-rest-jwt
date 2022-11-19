@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import net.openwebinars.springboot.restjwt.security.jwt.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -86,7 +87,7 @@ public class SecurityConfig {
                         .and()
                                 .authorizeRequests()
                                 .antMatchers("/note/**").hasRole("USER")
-                                .antMatchers("/auth/register/admin").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.POST,"/auth/register/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated();
 
 

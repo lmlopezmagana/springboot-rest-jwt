@@ -5,9 +5,9 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.java.Log;
+import net.openwebinars.springboot.restjwt.security.errorhandling.JwtTokenException;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +68,8 @@ public class JwtProvider {
         return Jwts.builder()
                 .setHeaderParam("typ", TOKEN_TYPE)
                 .setSubject(user.getId().toString())
-                .setIssuedAt(tokenExpirationDateTime)
+                .setIssuedAt(new Date())
+                .setExpiration(tokenExpirationDateTime)
                 .signWith(secretKey)
                 .compact();
 
@@ -81,15 +82,16 @@ public class JwtProvider {
     }
 
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token) throws JwtTokenException{
 
         try {
             jwtParser.parseClaimsJws(token);
             return true;
         } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
             log.info("Error con el token: " + ex.getMessage());
+            throw new JwtTokenException(ex.getMessage());
         }
-        return false;
+
 
     }
 
