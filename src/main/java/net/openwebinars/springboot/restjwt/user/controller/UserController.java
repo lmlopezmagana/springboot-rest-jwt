@@ -1,8 +1,9 @@
 package net.openwebinars.springboot.restjwt.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.openwebinars.springboot.restjwt.security.jwt.access.JwtProvider;
+import net.openwebinars.springboot.restjwt.security.jwt.JwtProvider;
 import net.openwebinars.springboot.restjwt.security.jwt.refresh.RefreshToken;
+import net.openwebinars.springboot.restjwt.security.jwt.refresh.RefreshTokenException;
 import net.openwebinars.springboot.restjwt.security.jwt.refresh.RefreshTokenRequest;
 import net.openwebinars.springboot.restjwt.security.jwt.refresh.RefreshTokenService;
 import net.openwebinars.springboot.restjwt.user.dto.*;
@@ -120,7 +121,7 @@ public class UserController {
                                     .refreshToken(refreshToken2.getToken())
                                     .build());
                 })
-                .orElseThrow(() -> new RuntimeException("Token de refresco no encontrado"));
+                .orElseThrow(() -> new RefreshTokenException("Refresh token not found"));
 
     }
 

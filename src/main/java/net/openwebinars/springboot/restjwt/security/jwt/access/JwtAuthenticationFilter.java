@@ -3,6 +3,7 @@ package net.openwebinars.springboot.restjwt.security.jwt.access;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import net.openwebinars.springboot.restjwt.security.errorhandling.JwtTokenException;
+import net.openwebinars.springboot.restjwt.security.jwt.JwtProvider;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

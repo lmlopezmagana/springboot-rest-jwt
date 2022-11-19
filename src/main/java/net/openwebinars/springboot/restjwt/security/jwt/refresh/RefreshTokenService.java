@@ -55,9 +55,8 @@ public class RefreshTokenService {
         if (refreshToken.getExpiryDate().compareTo(Instant.now()) < 0) {
             // Token de refresco caducado. Lo eliminamos y lanzamos excepción
             refreshTokenRepository.delete(refreshToken);
-            // Se puede mejorar con excepciones personalizadas
-            throw new RuntimeException("Token de refresco expirado: " + refreshToken.getToken() + ". Vuelva a loguearse, por favor.");
-
+            //throw new RuntimeException("Token de refresco expirado: " + refreshToken.getToken() + ". Vuelva a loguearse, por favor.");
+            throw new RefreshTokenException("Expired refresh token: " + refreshToken.getToken() + ". Please, login again");
         }
 
         return refreshToken;
