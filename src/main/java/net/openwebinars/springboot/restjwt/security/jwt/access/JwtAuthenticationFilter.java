@@ -2,14 +2,18 @@ package net.openwebinars.springboot.restjwt.security.jwt.access;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import net.openwebinars.springboot.restjwt.security.errorhandling.JwtTokenException;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,6 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserService userService;
     private final JwtProvider jwtProvider;
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
 
 
     @Override
@@ -55,11 +63,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
 
             }
-        } catch (Exception ex) {
+
+            filterChain.doFilter(request, response);
+
+        } catch (JwtTokenException ex) {
             log.info("Authentication error using token JWT: " + ex.getMessage());
+            resolver.resolveException(request, response, null, ex);
+
         }
 
-        filterChain.doFilter(request, response);
+
 
     }
 
