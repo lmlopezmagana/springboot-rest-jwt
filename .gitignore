@@ -165,3 +165,4 @@ buildNumber.properties
 # H2 databases
 
 *.mv.db
+*.trace.db
