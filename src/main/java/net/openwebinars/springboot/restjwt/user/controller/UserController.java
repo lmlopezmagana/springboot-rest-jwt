@@ -1,7 +1,7 @@
 package net.openwebinars.springboot.restjwt.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.openwebinars.springboot.restjwt.security.jwt.JwtProvider;
+import net.openwebinars.springboot.restjwt.security.jwt.access.JwtProvider;
 import net.openwebinars.springboot.restjwt.user.dto.*;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;

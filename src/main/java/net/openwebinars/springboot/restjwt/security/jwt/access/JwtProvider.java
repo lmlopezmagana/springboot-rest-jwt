@@ -1,4 +1,4 @@
-package net.openwebinars.springboot.restjwt.security.jwt;
+package net.openwebinars.springboot.restjwt.security.jwt.access;
 
 
 import io.jsonwebtoken.*;

@@ -1,13 +1,11 @@
-package net.openwebinars.springboot.restjwt.security.jwt;
+package net.openwebinars.springboot.restjwt.security.jwt.access;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
