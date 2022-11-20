@@ -56,15 +56,20 @@ public class JwtProvider {
 
         User user = (User) authentication.getPrincipal();
 
+        return generateToken(user);
+
+    }
+
+    public String generateToken(User user) {
         Date tokenExpirationDateTime =
-            Date.from(
-                    LocalDateTime
-                            .now()
-                            //.plusDays(jwtLifeInDays)
-                            .plusMinutes(jwtLifeInMinutes)
-                            .atZone(ZoneId.systemDefault())
-                            .toInstant()
-            );
+                Date.from(
+                        LocalDateTime
+                                .now()
+                                //.plusDays(jwtLifeInDays)
+                                .plusMinutes(jwtLifeInMinutes)
+                                .atZone(ZoneId.systemDefault())
+                                .toInstant()
+                );
 
         return Jwts.builder()
                 .setHeaderParam("typ", TOKEN_TYPE)
@@ -75,6 +80,7 @@ public class JwtProvider {
                 .compact();
 
     }
+
 
     public UUID getUserIdFromJwtToken(String token) {
         return UUID.fromString(
