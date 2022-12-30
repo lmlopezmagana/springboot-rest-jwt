@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -38,6 +39,16 @@ public class TokenControllerAdvice  {
     public ResponseEntity<?> handleTokenException(JwtTokenException ex, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(ErrorMessage.of(HttpStatus.FORBIDDEN, ex.getMessage(), request.getRequestURI()));
+    }
+
+    @ExceptionHandler({UsernameNotFoundException.class})
+    public ResponseEntity<?> handleUserNotExistsException(UsernameNotFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorMessage.of(
+                        HttpStatus.UNAUTHORIZED,
+                        ex.getMessage(),
+                        request.getRequestURI()
+                ));
     }
 
     @Getter

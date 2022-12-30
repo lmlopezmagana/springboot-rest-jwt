@@ -68,6 +68,7 @@ public class SecurityConfig {
 
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
+        authenticationProvider.setHideUserNotFoundExceptions(false);
 
         return authenticationProvider;
 
