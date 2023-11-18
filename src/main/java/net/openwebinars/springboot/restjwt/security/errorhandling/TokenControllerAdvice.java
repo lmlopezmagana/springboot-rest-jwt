@@ -61,7 +61,7 @@ public class TokenControllerAdvice  {
         private String message, path;
 
         @Builder.Default
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy hh:mm:ss")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
         private LocalDateTime dateTime = LocalDateTime.now();
 
         public static ErrorMessage of (HttpStatus status, String message, String path) {

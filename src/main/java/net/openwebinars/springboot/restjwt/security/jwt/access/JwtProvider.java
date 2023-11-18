@@ -8,7 +8,6 @@ import lombok.extern.java.Log;
 import net.openwebinars.springboot.restjwt.security.errorhandling.JwtTokenException;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -34,8 +32,8 @@ public class JwtProvider {
     private String jwtSecret;
 
     @Value("${jwt.duration}")
-    //private int jwtLifeInDays;
-    private int jwtLifeInMinutes;
+    private int jwtLifeInDays;
+    //private int jwtLifeInMinutes;
 
     private JwtParser jwtParser;
 
@@ -48,7 +46,8 @@ public class JwtProvider {
 
         //jwtParser = Jwts.parserBuilder()
         jwtParser = Jwts.parser()
-                .setSigningKey(secretKey)
+                //.setSigningKey(secretKey)
+                .verifyWith(secretKey)
                 .build();
     }
 
@@ -66,26 +65,37 @@ public class JwtProvider {
                 Date.from(
                         LocalDateTime
                                 .now()
-                                //.plusDays(jwtLifeInDays)
-                                .plusMinutes(jwtLifeInMinutes)
+                                .plusDays(jwtLifeInDays)
+                                //.plusMinutes(jwtLifeInMinutes)
                                 .atZone(ZoneId.systemDefault())
                                 .toInstant()
                 );
 
         return Jwts.builder()
-                .setHeaderParam("typ", TOKEN_TYPE)
+                .header().type(TOKEN_TYPE)
+                .and()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(tokenExpirationDateTime)
+                .signWith(secretKey)
+                .compact();
+                /*.setHeaderParam("typ", TOKEN_TYPE)
                 .setSubject(user.getId().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(tokenExpirationDateTime)
                 .signWith(secretKey)
-                .compact();
+                .compact();*/
 
     }
 
 
     public UUID getUserIdFromJwtToken(String token) {
+
+
+
         return UUID.fromString(
-                jwtParser.parseClaimsJws(token).getBody().getSubject()
+                //jwtParser.parseClaimsJws(token).getBody().getSubject()
+                jwtParser.parseSignedClaims(token).getPayload().getSubject()
         );
     }
 
@@ -93,7 +103,8 @@ public class JwtProvider {
     public boolean validateToken(String token) {
 
         try {
-            jwtParser.parseClaimsJws(token);
+            //jwtParser.parseClaimsJws(token);
+            jwtParser.parse(token);
             return true;
         } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
             log.info("Error con el token: " + ex.getMessage());

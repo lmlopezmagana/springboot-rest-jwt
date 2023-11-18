@@ -5,8 +5,11 @@ import net.openwebinars.springboot.restjwt.user.dto.CreateUserRequest;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.model.UserRole;
 import net.openwebinars.springboot.restjwt.user.repo.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -21,6 +24,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User createUser(CreateUserRequest createUserRequest, EnumSet<UserRole> roles) {
+
+        if (userRepository.existsByUsernameIgnoreCase(createUserRequest.getUsername()))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre de usuario ya existe");
+
         User user =  User.builder()
                 .username(createUserRequest.getUsername())
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
@@ -74,7 +81,7 @@ public class UserService {
                 .map(u -> {
                     u.setPassword(passwordEncoder.encode(newPassword));
                     return userRepository.save(u);
-                }).or(() -> Optional.empty());
+                });
 
     }
 
