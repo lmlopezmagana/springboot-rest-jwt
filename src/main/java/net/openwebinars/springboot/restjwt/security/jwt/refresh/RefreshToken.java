@@ -1,12 +1,12 @@
 package net.openwebinars.springboot.restjwt.security.jwt.refresh;
 
+import jakarta.persistence.*;
 import lombok.*;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 

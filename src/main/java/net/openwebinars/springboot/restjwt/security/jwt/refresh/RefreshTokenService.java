@@ -1,11 +1,11 @@
 package net.openwebinars.springboot.restjwt.security.jwt.refresh;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;

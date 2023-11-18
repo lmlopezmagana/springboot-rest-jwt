@@ -11,6 +11,7 @@ import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -125,6 +126,13 @@ public class UserController {
         }
 
         return null;
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getLoggedUser(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(UserResponse.fromUser(user));
     }
 
 

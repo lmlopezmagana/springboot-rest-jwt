@@ -82,7 +82,11 @@ public class NoteController {
 
     }
 
-    @PreAuthorize("@noteRepository.findById(#id).orElse(new net.openwebinars.springboot.restjwt.note.model.Note()).author == authentication.principal.getId().toString()")
+    @PreAuthorize("""
+            @noteRepository.findById(#id)
+                .orElse(new net.openwebinars.springboot.restjwt.note.model.Note()).author == 
+                                                        authentication.principal.getId().toString()
+            """)
     @PutMapping("/{id}")
     public ResponseEntity<Note> edit(@PathVariable Long id, @RequestBody Note edited) {
 

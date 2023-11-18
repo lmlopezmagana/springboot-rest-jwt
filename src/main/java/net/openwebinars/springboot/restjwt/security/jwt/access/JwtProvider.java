@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -46,7 +46,8 @@ public class JwtProvider {
 
         secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
-        jwtParser = Jwts.parserBuilder()
+        //jwtParser = Jwts.parserBuilder()
+        jwtParser = Jwts.parser()
                 .setSigningKey(secretKey)
                 .build();
     }
