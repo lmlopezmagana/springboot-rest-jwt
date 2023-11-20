@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,7 +35,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
+    /*@GenericGenerator(
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator",
             parameters = {
@@ -43,7 +44,8 @@ public class User implements UserDetails {
                             value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
                     )
             }
-    )
+    )*/
+    @UuidGenerator/*(style = UuidGenerator.Style.TIME)*/
     @Column(columnDefinition = "uuid")
     private UUID id;
 

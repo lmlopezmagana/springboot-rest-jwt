@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Log
 public class AuditorAwareImpl implements AuditorAware<String> {
-
+    /*
     @Override
     public Optional<String> getCurrentAuditor() {
         Authentication authentication =
@@ -36,11 +36,13 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 
 
     }
+    */
+
 
 
 
     // Otra versión del método, basado en la documentación de Spring Boot
-    /*
+
     @Override
     public Optional<String> getCurrentAuditor() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
@@ -53,7 +55,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 
 
     }
-    */
+
 
 
 }
