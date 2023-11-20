@@ -176,8 +176,8 @@ buildNumber.properties
 /bazel-out
 /integration/bazel/bazel-*
 *.log
-/node_modules/
-
+node_modules/
+.angular/
 # CircleCI temporary file for cache key computation.
 # See `save_month_to_file` in `.circleci/config.yml`.
 month.txt
