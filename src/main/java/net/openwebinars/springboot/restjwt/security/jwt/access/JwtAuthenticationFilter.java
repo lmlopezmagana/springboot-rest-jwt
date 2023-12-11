@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import net.openwebinars.springboot.restjwt.security.TokenBlacklist;
 import net.openwebinars.springboot.restjwt.security.errorhandling.JwtTokenException;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import net.openwebinars.springboot.restjwt.user.service.UserService;
@@ -30,6 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserService userService;
     private final JwtProvider jwtProvider;
+    private final TokenBlacklist tokenBlacklist;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
@@ -43,7 +45,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = getJwtTokenFromRequest(request);
 
         try {
-            if (StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
+            if (StringUtils.hasText(token) && jwtProvider.validateToken(token) && !tokenBlacklist.isBlacklisted(token)) {
                 UUID userId = jwtProvider.getUserIdFromJwtToken(token);
 
                 Optional<User> result = userService.findById(userId);
