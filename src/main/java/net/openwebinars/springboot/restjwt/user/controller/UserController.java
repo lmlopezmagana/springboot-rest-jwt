@@ -1,6 +1,8 @@
 package net.openwebinars.springboot.restjwt.user.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import net.openwebinars.springboot.restjwt.security.InMemoryTokenBlacklist;
 import net.openwebinars.springboot.restjwt.security.jwt.access.JwtProvider;
 import net.openwebinars.springboot.restjwt.user.dto.*;
 import net.openwebinars.springboot.restjwt.user.model.User;
@@ -13,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,6 +28,7 @@ public class UserController {
     private final UserService userService;
     private final AuthenticationManager authManager;
     private final JwtProvider jwtProvider;
+    private final InMemoryTokenBlacklist tokenBlacklist;
 
 
     @PostMapping("/auth/register")
@@ -72,6 +76,16 @@ public class UserController {
 
     }
 
+    @PostMapping("/logout-user")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        String token = userService.extractTokenFromRequest(request);
+        tokenBlacklist.addToBlacklist(token);
+
+        // Clear any session-related data if necessary
+
+        return ResponseEntity.ok("Logged out successfully");
+    }
+
 
 
 
@@ -107,6 +121,4 @@ public class UserController {
     public ResponseEntity<UserResponse> getLoggedUser(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(UserResponse.fromUser(user));
     }
-
-
 }
