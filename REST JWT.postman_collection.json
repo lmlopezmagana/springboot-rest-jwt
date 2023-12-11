@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "73fb9f51-1270-4112-b29c-61d674051ac8",
+		"_postman_id": "77e0fe89-80b9-42b3-8e1b-859c4599fef7",
 		"name": "REST JWT",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6104479"
+		"_exporter_id": "30052758"
 	},
 	"item": [
 		{
@@ -451,6 +451,33 @@
 					],
 					"path": [
 						"refreshtoken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/logout-user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"logout-user"
 					]
 				}
 			},
