@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import net.openwebinars.springboot.restjwt.security.RedisBlacklist;
 import net.openwebinars.springboot.restjwt.security.TokenBlacklist;
 import net.openwebinars.springboot.restjwt.security.errorhandling.JwtTokenException;
 import net.openwebinars.springboot.restjwt.user.model.User;
@@ -31,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserService userService;
     private final JwtProvider jwtProvider;
-    private final TokenBlacklist tokenBlacklist;
+    private final RedisBlacklist tokenBlacklist;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")

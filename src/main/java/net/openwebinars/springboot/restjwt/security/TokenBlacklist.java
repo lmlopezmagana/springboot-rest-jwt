@@ -1,6 +1,10 @@
 package net.openwebinars.springboot.restjwt.security;
 
-public interface TokenBlacklist {
-    void addToBlacklist(String token);
-    boolean isBlacklisted(String token);
+import net.openwebinars.springboot.restjwt.BlackList;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TokenBlacklist extends JpaRepository<BlackList, String> {
 }
