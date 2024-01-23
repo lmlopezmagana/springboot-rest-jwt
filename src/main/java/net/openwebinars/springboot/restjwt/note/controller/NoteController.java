@@ -1,8 +1,10 @@
 package net.openwebinars.springboot.restjwt.note.controller;
 
 import lombok.RequiredArgsConstructor;
+import net.openwebinars.springboot.restjwt.dto.NotesGroupedByTagsDto;
 import net.openwebinars.springboot.restjwt.note.model.Note;
 import net.openwebinars.springboot.restjwt.note.repo.NoteRepository;
+import net.openwebinars.springboot.restjwt.note.service.NoteService;
 import net.openwebinars.springboot.restjwt.user.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -20,6 +22,7 @@ import java.util.List;
 public class NoteController {
 
     private final NoteRepository repository;
+    private final NoteService service;
 
     @GetMapping("/")
     public ResponseEntity<List<Note>> getAll(@AuthenticationPrincipal User user) {
@@ -113,6 +116,18 @@ public class NoteController {
 
         return ResponseEntity.noContent().build();
 
+    }
+
+
+    @GetMapping("/tags")
+    public ResponseEntity<List<NotesGroupedByTagsDto>> notesGroupedByTag(@AuthenticationPrincipal String author) {
+
+        List<NotesGroupedByTagsDto> result = service.notesGroupedByTagsDtoList(author);
+
+        if (result != null)
+            return ResponseEntity.ok(result);
+
+        return ResponseEntity.noContent().build();
     }
 
 
