@@ -32,7 +32,7 @@ public class Note {
 
     private boolean important;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     List<String> tags = new ArrayList<>();
 
